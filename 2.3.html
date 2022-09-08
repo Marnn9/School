@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="700" height="700" style="background:#FF9900;"></canvas>
+ 
+    <script>
+const canvas = document.getElementById('myCanvas');
+let ctx = canvas.getContext('2d');
+
+function draw(aKol, aRad){
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+
+
+    const radius = 250;
+    let antallP = 20;
+    let p = 0.9;
+    if(aRad % 2 === 0){
+        p = 0.1;
+    }
+    const size = 100; 
+
+    const pt1 = {x: size * aKol, y: size * aRad};
+    const pt2 = {x: size + (size * aKol) , y: size * aRad};
+    const pt3 = {x: size + (size * aKol), y: size + (size * aRad)};
+    const pt4 = {x: size * aKol, y: size + (size * aRad)};
+
+    
+    ctx.strokeRect(pt1.x ,pt1.y, size, size);
+
+
+    
+    for(let i = 0; i < antallP; i++){
+        ctx.beginPath()
+        const pt5 = {x: pt1.x, y:pt1.y}
+        //(pt2 - pt1) * p + pt1
+
+        pt1.x = (pt2.x - pt1.x) * p + pt1.x;
+        pt1.y = (pt2.y - pt1.y) * p + pt1.y;
+        ctx.moveTo(pt1.x ,pt1.y);
+        pt2.x = (pt3.x - pt2.x) * p + pt2.x;
+        pt2.y = (pt3.y - pt2.y) * p + pt2.y;
+        ctx.lineTo(pt2.x, pt2.y);
+        pt3.x = (pt4.x - pt3.x) * p + pt3.x;
+        pt3.y = (pt4.y - pt3.y) * p + pt3.y;
+        ctx.lineTo(pt3.x, pt3.y);
+        pt4.x = (pt5.x - pt4.x) * p + pt4.x;
+        pt4.y = (pt5.y - pt4.y) * p + pt4.y;
+        ctx.lineTo(pt4.x, pt4.y);
+        ctx.closePath();
+        
+        ctx.stroke();
+      
+    }
+    
+
+}
+
+for(let col = 0, row = 0; col < 7; col ++, row++){
+    draw(col, row);
+}
+
+
+
+
+/* draw(0,0); */
+
+    </script>
+    
+</body>
+</html>
